@@ -11,7 +11,13 @@ class Unit(models.Model):
 class Course(models.Model):
     CourseCode = models.CharField(max_length=10, primary_key=True)
     CourseName = models.CharField(max_length=400)
-    Field = models.CharField(max_length=500)
+    CourseType = models.CharField(max_length=100)
+
+class CourseMajor(models.Model):
+    CourseCode = models.CharField(max_length=10)
+    Field = models.CharField(max_length=400)
+    class Meta:
+        unique_together = (('CourseCode','Field'),)
 
 class PreRequisite(models.Model):
     UnitCode = models.CharField(max_length=6)
