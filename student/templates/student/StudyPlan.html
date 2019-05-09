@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Study Plan</h1>
+	{% for unit in units %}
+		<ul>{{ unit.UnitName }}</ul>
+	{% endfor %}
 </body>
 </html>

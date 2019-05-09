@@ -2,9 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9cc1d922-5632-4622-a0b3-0c8fd47211be" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CDUCourseSupportSystem/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/CDUCourseSupportSystem/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/migrations/0002_auto_20190504_1520.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/migrations/0002_auto_20190504_1520.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lecturer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/templates/student/StudyPlan.html" beforeDir="false" afterPath="$PROJECT_DIR$/student/templates/student/StudyPlan.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/templates/student/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/student/templates/student/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/student/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,31 +30,34 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/student/urls.py">
+        <entry file="file://$PROJECT_DIR$/student/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+            <state relative-caret-position="153">
+              <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
               <folding>
-                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#66#102#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/student/models.py">
+        <entry file="file://$PROJECT_DIR$/lecturer/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+            <state relative-caret-position="136">
+              <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/student/views.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lecturer/templates/lecturer/lecturerlogin.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="170">
+              <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -50,29 +65,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/student/templates/student/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+            <state relative-caret-position="119">
+              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CDUCourseSupportSystem/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/lecturer/templates/lecturer/uploadpage.html">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lecturer/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="9" column="48" lean-forward="true" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
+              <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -80,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/student/templates/student/StudyPlan.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            <state relative-caret-position="34">
+              <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -110,10 +118,12 @@
         <option value="$PROJECT_DIR$/student/templates/student/StudyPlan.html" />
         <option value="$PROJECT_DIR$/CDUCourseSupportSystem/urls.py" />
         <option value="$PROJECT_DIR$/student/urls.py" />
-        <option value="$PROJECT_DIR$/student/views.py" />
         <option value="$PROJECT_DIR$/student/templates/student/index.html" />
         <option value="$PROJECT_DIR$/student/models.py" />
         <option value="$PROJECT_DIR$/lecturer/models.py" />
+        <option value="$PROJECT_DIR$/student/views.py" />
+        <option value="$PROJECT_DIR$/lecturer/views.py" />
+        <option value="$PROJECT_DIR$/lecturer/templates/lecturer/lecturerlogin.html" />
       </list>
     </option>
   </component>
@@ -129,7 +139,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -142,10 +151,42 @@
               <item name="CDUCourseSupportSystem" type="462c0819:PsiDirectoryNode" />
               <item name="lecturer" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="CDUCourseSupportSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDUCourseSupportSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="lecturer" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDUCourseSupportSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDUCourseSupportSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="lecturer" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="lecturer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDUCourseSupportSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDUCourseSupportSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="student" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDUCourseSupportSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDUCourseSupportSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="student" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDUCourseSupportSystem" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDUCourseSupportSystem" type="462c0819:PsiDirectoryNode" />
+              <item name="student" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="student" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -223,11 +264,14 @@
       <workItem from="1555641348418" duration="21000" />
       <workItem from="1555621989846" duration="5245000" />
       <workItem from="1555823777875" duration="345000" />
+      <workItem from="1557293139125" duration="494000" />
+      <workItem from="1557298479375" duration="601000" />
+      <workItem from="1557333764816" duration="21000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22122000" />
+    <option name="totallyTimeSpent" value="23906000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -240,9 +284,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49918166" visible="true" weight="0.28214827" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918166" visible="true" weight="0.295764" />
       <window_info id="Structure" order="1" sideWeight="0.5008183" side_tool="true" weight="0.25340393" />
       <window_info id="Favorites" order="2" sideWeight="0.5008183" side_tool="true" weight="0.25340393" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -254,7 +297,7 @@
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49924356" weight="0.33387887" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924356" visible="true" weight="0.3846154" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49924356" visible="true" weight="0.050736498" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5015129" side_tool="true" weight="0.61047465" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
@@ -333,20 +376,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CDUCourseSupportSystem/urls.py">
+    <entry file="file://$PROJECT_DIR$/student/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/student/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="85">
+          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/student/urls.py">
+    <entry file="file://$PROJECT_DIR$/student/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        <state relative-caret-position="187">
+          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CDUCourseSupportSystem/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -355,39 +408,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/student/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="153">
+          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+          <folding>
+            <element signature="e#66#102#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/student/templates/student/StudyPlan.html">
+    <entry file="file://$PROJECT_DIR$/lecturer/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        <state relative-caret-position="136">
+          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/student/templates/student/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+        <state relative-caret-position="119">
+          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/student/tests.py">
+    <entry file="file://$PROJECT_DIR$/lecturer/templates/lecturer/uploadpage.html">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/student/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lecturer/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="9" column="48" lean-forward="true" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
+          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/student/templates/student/StudyPlan.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lecturer/templates/lecturer/lecturerlogin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
         </state>
       </provider>
     </entry>

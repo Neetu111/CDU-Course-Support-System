@@ -6,7 +6,6 @@ class Unit(models.Model):
     UnitName = models.CharField(max_length=400)
     Type = models.CharField(max_length=2)
     PreRequisite = models.BinaryField()
-    Semester = models.DecimalField(max_digits=1, decimal_places=0)
 
     def __str__(self):
         return self.UnitCode + ' ' + self.UnitName
@@ -20,13 +19,14 @@ class Course(models.Model):
         return self.CourseCode + ' ' + self.CourseName
 
 class CourseMajor(models.Model):
-    CourseCode = models.CharField(max_length=10)
-    Field = models.CharField(max_length=400)
-    class Meta:
-        unique_together = (('CourseCode','Field'),)
-
-    def __str__(self):
-        return self.CourseCode + ' ' + self.Field
+	CourseCode = models.CharField(max_length=10)
+	Field = models.CharField(max_length=400)
+	Semester = models.DecimalField(max_digits=1, decimal_places=0)
+	class Meta:
+		unique_together = (('CourseCode','Field'),)
+	
+	def __str__(self):
+		return self.CourseCode + ' ' + self.Field
 
 class PreRequisite(models.Model):
     UnitCode = models.CharField(max_length=6)
