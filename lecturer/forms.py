@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Lecturer
+from .models import *
 
 class lecturerForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput)
