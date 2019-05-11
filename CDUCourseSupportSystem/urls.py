@@ -7,7 +7,7 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^student/', include('student.urls')),
-    url(r'^lecturer/', include('lecturer.urls')),
+    url(r'^student/', include('student.urls', namespace='student')),
+    url(r'^lecturer/', include('lecturer.urls', namespace='lecturer')),
     #url(r'^StudyPlan', include('student.urls'))
 ]

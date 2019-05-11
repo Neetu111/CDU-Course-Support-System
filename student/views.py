@@ -43,6 +43,14 @@ def StudyPlan(request):
 	context = {'Units': unitss}
 	return render(request, 'student/StudyPlan.html', context)
 	
+def FinalStudyPlan(request, unit_code):
+	def is_pre_req():
+		pre_requisite = PreRequisite.objects.filter(UnitCode = unit_code)
+		if len(pre_requisite)==0:
+			return False
+		else:
+			return True
+	
 	
 	
 	

@@ -1,17 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-	{% for unit in units %}
-		<ul>{{ unit.UnitName }}</ul>
-	{% endfor %}
-	<br><br><br>
-	<form action="FinalStudyPlan.html" method = "get">
-	<input type="checkbox" name="name" value="box">Checkbox<br>
-	<input type = "submit" value = "Submit">
-	</form>
-</body>
-</html>
+{% extends 'student/base.html' %}
+{% block body %}
+	<div>
+		<div class="col-sm-4 features">
+			<form action="{% url 'student:FinalStudyPlan' %}" method = "post">
+			{% csrf_token %}
+			{% for unit in units %}
+				<input type="checkbox" name="UNIT" value="{{ unit.UnitCode }}">
+				{% if  UNIT.is_pre_req %}
+					<div class="popup" onclick="PreRequisiteMsg()">{{ unit.UnitName }}
+					<span class="popuptext" id="PreRequisiteInfo">
+					{% for pre_req in pre_requisite %}
+						{% if unit.UnitCode in pre_req.UnitCode %}
+							<ul>{{ pre_req.PreRequisiteCode }}</ul>
+						{% endif %}
+					{% endfor %}
+					</span>
+					</div>
+				{% endif %}
+			{% endfor %}
+			<input type = "submit" value = "Submit">
+			</form>
+		</div>
+	<div>
+	<script> function PreRequisiteMsg(){
+		var msg = confirm("Confirm that you completed these courses.")
+		documet.getElementById("PreRequisiteInfo").innerHTML = msg;
+	}</script>
+{% endblock %}
