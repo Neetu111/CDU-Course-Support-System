@@ -4,6 +4,9 @@
 	<title>Lecturer</title>
 </head>
 <body>
-<h1> Upload file</h1>
+<h1>Lecturer Name</h1>
+{% for lec in lecturer_form %}
+	<a href="{% url 'lecturer:'%}" <h1>{{lec.Name.url }}</h1>
+{% endfor %}
 </body>
 </html>

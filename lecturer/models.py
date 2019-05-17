@@ -1,10 +1,12 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class Lecturer(models.Model):
     LecturerID = models.CharField(max_length=10, primary_key = True)
     Name = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
+    upload = models.FileField()
 
     def publish(self):
         self.save()

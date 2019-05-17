@@ -1,0 +1,62 @@
+{% extends 'student/base.html' %}
+{% block body %}
+
+{% if error_message %}
+	<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+<script type="text/javascript">
+	function get_unit_name(get_unit_name){
+	    var selected_unit_name = document.getElementById("unit{{ forloop.counter }}").value;
+	    document.getElementById("demo").innerHTML = selected_unit_name;
+	}
+	function move() {
+		var content = document.getElementById("ToSelectUnit").innerHTML;
+		    document.getElementById("SelectedUnits").innerHTML = content;
+	}
+</script>
+<div class="row" id="features">
+	<div class="col-sm-6 features" id="SelectedUnits">
+	</div><!--- end SelectedUnits--->
+	<div class="col-sm-6 features" id="ToSelectUnit">
+        <p>List of units</p>
+		<form method="post">
+			{% csrf_token %}
+            <!--<p>{{ units.Unit.UnitName }}</p>-->
+			{% for unit in units %}
+                <!--<input type="radio" id="unit{{ forloop.counter }}" name="unit" value="{{ unit.UnitCode}}" />-->
+                <!--<label for="unit{{ forloop.counter }}">-->
+                    <!--{{ unit.UnitName}}-->
+                    <!--{% if unit.PreRequisite %}-->
+                        <!--<p>working</p>-->
+                    <!--{% endif %}-->
+                <!--</label><br>-->
+				<a href="#{{ unit.UnitCode }}" id="unit{{ forloop.counter }}" onclick="get_unit_name()" role="button" class="btn btn-warning" data-toggle="modal">
+                    <input type="radio" checked="" name="unit" value="{{ unit.UnitCode }}" >
+                        <!--- popup modal--->
+                            <div class="modal fade" id="{{ unit.UnitCode }}">
+                                <div class="modal-dialoge">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Pre-Requisite Information</h4>
+                                        </div><!--- end modal header--->
+                                        <div class="modal-body">
+                                            <p></p>
+                                        </div><!--- end modal body--->
+                                        <div class="modal-footer">
+                                            <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                                            <button class="btn btn-primary" type="button">Okay</button>
+                                        </div><!--- end modal footer--->
+                                    </div><!--- end modal content--->
+                                </div><!--- end modal dialogue--->
+                            </div><!--- end popup modal --->
+                    </a>
+                <label for="unit{{ forloop.counter }}">
+                    {{ unit.UnitName }}
+                </label>
+                <br>
+			{% endfor %}
+			<input type="submit" value="Add" >
+		</form><!---end form--->
+	</div><!--- end ToSelectUnit--->
+</div><!--- end features--->
+{% endblock %}

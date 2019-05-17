@@ -1,10 +1,11 @@
-from django.conf.urls import include, url
+from django.urls import path, re_path
 from .import views
 
 app_name = 'student'
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^StudyPlan.html', views.StudyPlan, name='StudyPlan'),
-	url(r'^FinalStudyPlan.html', views.FinalStudyPlan, name='FinalStudyPlan'),
+    path('', views.index, name='index'),
+    path('<course_field>-<course_code>/', views.study_plan, name='study_plan'),
+    #path(r'^([\w-\s])+/$', views.study_plan, name='study_plan'),
+    #re_path(r'^(?P<course_field>[\w-]+)/$', views.study_plan, name='study_plan'),
 ]

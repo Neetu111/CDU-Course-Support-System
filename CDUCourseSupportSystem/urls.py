@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, path
 from django.contrib import admin
 
 urlpatterns = [
@@ -6,8 +6,8 @@ urlpatterns = [
     # url(r'^$', 'CDUCourseSupportSystem.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^student/', include('student.urls', namespace='student')),
-    url(r'^lecturer/', include('lecturer.urls', namespace='lecturer')),
+    path('admin/', admin.site.urls),
+    path('student/', include(('student.urls', 'student'))),
+    path('lecturer/', include(('lecturer.urls', 'lecturer'))),
     #url(r'^StudyPlan', include('student.urls'))
 ]
