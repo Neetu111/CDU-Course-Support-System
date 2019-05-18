@@ -5,7 +5,7 @@ class Unit(models.Model):
 	UnitCode = models.CharField(max_length=6, primary_key=True)
 	UnitName = models.CharField(max_length=400)
 	Type = models.CharField(max_length=2)
-	PreRequisite = models.BinaryField()
+	PreRequisite = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.UnitCode + ' ' + self.UnitName

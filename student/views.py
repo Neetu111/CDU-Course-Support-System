@@ -6,19 +6,6 @@ from django.urls import reverse
 from .forms import *
 from .models import Unit, Course, CourseMajor, SemesterUnit, PreRequisite
 
-def study_plan(request, course_field, course_code):
-	course_id = CourseMajor.objects.filter(Q(Field = course_field) | Q(CourseCode=course_code))
-	unit_id = SemesterUnit.objects.filter(CourseCode=course_code)
-	print(unit_id)
-	units = Unit.objects.filter(UnitCode=unit_id)
-	# courses = Course.objects.filter(CourseName=course_id)
-	# print('5')
-	# course_majors = CourseMajor.objects.filter(CourseName = course_id)
-	# semester_unit = SemesterUnit.objects.filter(CourseName=course_id)
-	# pre_requisite = PreRequisite.objects.all()
-	context = {'unit': units}
-	return render(request, 'student/study_plan.html', context)
-
 def index(request):
 	form = CourseForm()
 	if request.method=="POST":
@@ -32,39 +19,48 @@ def index(request):
 		for course_major in course_majors:
 			model_course_code.append(course_major.CourseCode)
 			model_field.append(course_major.Field)
-		#Unit_Name = SemesterUnit.objects.filter(CourseCode = course_code)
-		#units = Unit.objects.all()
 		if course_code in model_course_code and field in model_field:
 			return HttpResponseRedirect(reverse('student:study_plan', args=[field, course_code]))   #redirect(reverse('study_plan'), course_field=field)
-			# courses = Course.objects.filter(CourseCode=course_code)
-			# # course_majors = CourseMajor.objects.filter(CourseCode = course_code)
-			# semester_unit = SemesterUnit.objects.filter(CourseCode=course_code)
-			# pre_requisite = PreRequisite.objects.all()
-			# context = {'units': units, 'courses': courses, 'course_majors': course_majors, 'semester_unit': semester_unit,
-			# 		   'pre_requisite': pre_requisite}
-			# return render(request, 'student/study_plan.html', context)
-			#
 		else:
-			form = CourseForm()		# just for checking
+			form = CourseForm()
 	return render(request, 'student/index.html',{'form': form})
 
+def study_plan(request, course_field, course_code):
+	course_id = CourseMajor.objects.filter(Q(Field = course_field) | Q(CourseCode=course_code))
+	unit_id = SemesterUnit.objects.filter(CourseCode=course_code)
+	unit_codes = SemesterUnit.objects.filter(CourseCode=course_code).values('UnitCode')
+	desired_units = Unit.objects.filter(UnitCode__in = unit_codes)
+	context = {'units': desired_units, 'course_field':course_field, 'course_code':course_code}
+	return render(request, 'student/study_plan.html', context)
 
-
-def check_prerequisite(request):
-	units = Unit.objects.all()
-	courses = Course.objects.all()
-	course_majors = CourseMajor.objects.all()
-	semester_unit = SemesterUnit.objects.all()
-	pre_requisite = PreRequisite.objects.all()
-	selected_unit = units.object.filter(pk=request.POST['unit'])
-	return HttpResponse(selected_unit)
-	# except (KeyError, Unit.DoesNotExist):
-	# 	return render(request, 'student/StudyPlan.html', {'error_message':"not working"})
-	# else:
-	# 	if selected_unit.Prerequisite:
-	# 		return HttpResponse(selected_unit)
-	# 		# pre_requisite = PreRequisite.objects.filter(UnitCode=selected_unit.UnitCode)
-	# 		# return render(request, 'student/StudyPlan.html', {'pre_requisite':pre_requisite, 'unit':units})
+def check_prerequisite(request, course_field, course_code):
+	course_id = CourseMajor.objects.filter(Q(Field=course_field) | Q(CourseCode=course_code))
+	unit_id = SemesterUnit.objects.filter(CourseCode=course_code)
+	unit_codes = SemesterUnit.objects.filter(CourseCode=course_code).values('UnitCode')
+	desired_units = Unit.objects.filter(UnitCode__in=unit_codes)
+	# selected_unit = Unit.objects.get(UnitCode = request.POST['unit'])
+	# print("Selected                                  Unit")
+	# print(selected_unit.UnitName)
+	# print(selected_unit.UnitCode)
+	# print(selected_unit.Type)
+	# print(selected_unit.PreRequisite)
+	try:
+		selected_unit = Unit.objects.get(UnitCode = request.POST['unit'])
+		# print("Selected                                  Unit")
+		# print(selected_unit.UnitName)
+		# print(selected_unit.UnitCode)
+		# print(selected_unit.Type)
+	except (KeyError, Unit.DoesNotExist):
+		context = {'units': desired_units, 'course_field': course_field, 'course_code': course_code, 'error_message':"not working"}
+		return render(request, 'student/study_plan.html', context)
+	else:
+		if selected_unit.PreRequisite:
+			context = {'units': desired_units, 'course_field': course_field, 'course_code': course_code,}
+			return render(request, 'student/study_plan.html', context)
+		else:
+			context = {'units': desired_units, 'course_field': course_field, 'course_code': course_code,
+		   'error_message': "No Prerequisite"}
+			return render(request, 'student/study_plan.html', context)
 
 
 
