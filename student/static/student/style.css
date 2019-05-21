@@ -1,0 +1,7 @@
+.unit_without_prerequisite {
+    color: green;
+}
+
+.unit_with_prerequisite {
+    color: red;
+}

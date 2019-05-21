@@ -1,66 +1,116 @@
 {% extends 'student/base.html' %}
 {% block body %}
 
-{% if error_message %}
-	<p><strong>{{ error_message }}</strong></p>
-{% endif %}
+<style type="text/css">
+    .unit_without_prerequisite {
+    color: green;
+    }
+
+    .unit_with_prerequisite {
+        color: red;
+    }
+</style>
+
+
 <script type="text/javascript">
-//	function get_unit_name(get_unit_name){
-//	    var selected_unit_name = document.getElementById("unit{{ forloop.counter }}").value;
-//	    document.getElementById("demo").innerHTML = selected_unit_name;
-//	}
-//	function move() {
-//		var content = document.getElementById("ToSelectUnit").innerHTML;
-//		    document.getElementById("SelectedUnits").innerHTML = content;
-//	}
-	function Unit_PreRequisiteInfo() {
-	    var content = confirm()
-//		var content = document.getElementById("ToSelectUnit").innerHTML;
-//		    document.getElementById("SelectedUnits").innerHTML = content;
+	function moving_with_prerequisite() {
+		var content = document.getElementById("ToSelectUnit").innerHTML;
+		    document.getElementById("SelectedUnits").innerHTML = content;
+	}
+
+	function Unit_PreRequisite_Info(radio_button_id, selected_unit_code, selected_unit_name) {
+		var pre_requisite_info = '{{ pre_requisite_units }}';
+		var code = [];
+		var pre_requisite_code = "";
+		var pre_requisite_name = "";
+		{% for pre_requisite_unit in pre_requisite_units %}
+			code.push('{{ pre_requisite_unit.UnitCode }}');
+		{% endfor %}
+		var pop_up_msg = "Selected Unit \n" + selected_unit_name + "-" + selected_unit_code + "\n" + "No pre-requisite required";
+		for(each_code in code){
+			if(selected_unit_code == code[each_code]){
+				{% for pre_requisite_unit in pre_requisite_units %}
+					if(selected_unit_code =='{{ pre_requisite_unit.UnitCode }}'){
+						pre_requisite_code = '{{ pre_requisite_unit.PreRequisiteCode }}';
+						{% for unit in units %}
+							if(pre_requisite_code == '{{ unit.UnitCode }}' ){
+								pre_requisite_name = pre_requisite_name + "\n" + ('{{ unit.UnitName }}');
+							}
+						{% endfor %}
+					}
+				{% endfor %}
+			pop_up_msg = "Selected Unit \n" + selected_unit_name + "-" + selected_unit_code + "\n" + "Following pre-requisite are required "+ pre_requisite_name+ "\n" + "Confirm that you have passed these units";
+			break;
+			}
+		}
+		var pop_up_result = confirm(pop_up_msg);
+		if (pop_up_result == false){
+			radio_button_id.checked = false;
+			var pop_up = confirm(radio_button_id.checked);
+		}
 	}
 </script>
 <div class="row" id="features">
 	<div class="col-sm-6 features" id="SelectedUnits">
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+        {% for unit in unit_for_div %}
+            {% if unit.PreRequisite %}
+                <div class="unit_with_prerequisite">
+                    {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
+                </div><!--- end "unit_with_prerequisite" --->
+            {% else %}
+                <div class="unit_without_prerequisite" >
+                    {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
+                </div><!--- end "unit_without_prerequisite" --->
+            {% endif %}
+        {% endfor %}
 	</div><!--- end SelectedUnits--->
 	<div class="col-sm-6 features" id="ToSelectUnit">
         <strong><p>List of Units For {{ course_code }}</p></strong>
 		<form action="{% url 'student:check_prerequisite' course_field course_code %}" method="post">
 			{% csrf_token %}
 			{% for unit in units %}
-                <input type="radio" id="unit{{ forloop.counter }}" name="unit" value="{{ unit.UnitCode }}" {% if checked %} onclick="Unit_PreRequisiteInfo()" {% endif %} />
-                <label for="unit{{ forloop.counter }}">
-                    {{ unit.UnitName}} - {{ unit.UnitCode }}
-                    <!--{% if unit.PreRequisite %}-->
-                        <!--<p>selected {{ unit.UnitName }}</p>-->
-                    <!--{% endif %}-->
-                </label><br>
-				<!--<a href="#{{ unit.UnitCode }}" id="unit{{ forloop.counter }}" onclick="get_unit_name()" role="button" class="btn btn-warning" data-toggle="modal">-->
-                    <!--<input type="radio" checked="" name="unit" value="{{ unit.UnitCode }}" >-->
-                        <!--&lt;!&ndash;- popup modal-&ndash;&gt;-->
-                            <!--<div class="modal fade" id="{{ unit.UnitCode }}">-->
-                                <!--<div class="modal-dialoge">-->
-                                    <!--<div class="modal-content">-->
-                                        <!--<div class="modal-header">-->
-                                            <!--<h4 class="modal-title">Pre-Requisite Information</h4>-->
-                                        <!--</div>&lt;!&ndash;- end modal header-&ndash;&gt;-->
-                                        <!--<div class="modal-body">-->
-                                            <!--<p></p>-->
-                                        <!--</div>&lt;!&ndash;- end modal body-&ndash;&gt;-->
-                                        <!--<div class="modal-footer">-->
-                                            <!--<button class="btn btn-default" data-dismiss="modal" type="button">Close</button>-->
-                                            <!--<button class="btn btn-primary" type="button">Okay</button>-->
-                                        <!--</div>&lt;!&ndash;- end modal footer-&ndash;&gt;-->
-                                    <!--</div>&lt;!&ndash;- end modal content-&ndash;&gt;-->
-                                <!--</div>&lt;!&ndash;- end modal dialogue-&ndash;&gt;-->
-                            <!--</div>&lt;!&ndash;- end popup modal -&ndash;&gt;-->
-                    <!--</a>-->
-                <!--<label for="unit{{ forloop.counter }}">-->
-                    <!--{{ unit.UnitName }}-->
-                <!--</label>-->
-                <!--<br>-->
+                <div class="unit_radio_button">
+					<input type="radio" id="unit{{ forloop.counter }}" name="unit" value="{{ unit.UnitCode }}" onclick="Unit_PreRequisite_Info('unit{{ forloop.counter }}', '{{ unit.UnitCode }}', '{{ unit.UnitName }}')" />
+					<label for="unit{{ forloop.counter }}">
+						{{ unit.UnitName}} - {{ unit.UnitCode }}
+					</label><br>
+				</div><!--- end "unit_radio_button" --->
 			{% endfor %}
 			<input type="submit" value="Add" >
 		</form><!---end form--->
 	</div><!--- end ToSelectUnit--->
 </div><!--- end features--->
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

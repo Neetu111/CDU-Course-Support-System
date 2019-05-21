@@ -1,10 +1,11 @@
+from django.core.serializers import json
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-
 from .forms import *
 from .models import Unit, Course, CourseMajor, SemesterUnit, PreRequisite
+
 
 def index(request):
 	form = CourseForm()
@@ -30,36 +31,34 @@ def study_plan(request, course_field, course_code):
 	unit_id = SemesterUnit.objects.filter(CourseCode=course_code)
 	unit_codes = SemesterUnit.objects.filter(CourseCode=course_code).values('UnitCode')
 	desired_units = Unit.objects.filter(UnitCode__in = unit_codes)
-	context = {'units': desired_units, 'course_field':course_field, 'course_code':course_code}
+	pre_requisite_units = PreRequisite.objects.filter(UnitCode__in=unit_codes)
+	pre_requisite_unit = [{'UnitCode': pre_requisite.UnitCode, 'PreRequisiteCode': pre_requisite.PreRequisiteCode} for pre_requisite in pre_requisite_units]
+	context = {'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field':course_field, 'course_code':course_code}
 	return render(request, 'student/study_plan.html', context)
 
+unit_for_div = []
 def check_prerequisite(request, course_field, course_code):
 	course_id = CourseMajor.objects.filter(Q(Field=course_field) | Q(CourseCode=course_code))
 	unit_id = SemesterUnit.objects.filter(CourseCode=course_code)
 	unit_codes = SemesterUnit.objects.filter(CourseCode=course_code).values('UnitCode')
 	desired_units = Unit.objects.filter(UnitCode__in=unit_codes)
-	# selected_unit = Unit.objects.get(UnitCode = request.POST['unit'])
-	# print("Selected                                  Unit")
-	# print(selected_unit.UnitName)
-	# print(selected_unit.UnitCode)
-	# print(selected_unit.Type)
-	# print(selected_unit.PreRequisite)
+	pre_requisite_units = PreRequisite.objects.filter(UnitCode__in=unit_codes)
+	pre_requisite_unit = [{'UnitCode': pre_requisite.UnitCode, 'PreRequisiteCode': pre_requisite.PreRequisiteCode} for pre_requisite in pre_requisite_units]
 	try:
 		selected_unit = Unit.objects.get(UnitCode = request.POST['unit'])
-		# print("Selected                                  Unit")
-		# print(selected_unit.UnitName)
-		# print(selected_unit.UnitCode)
-		# print(selected_unit.Type)
+		if selected_unit not in unit_for_div:
+			unit_for_div.append(selected_unit)
+		print("trial                value")
+		print(unit_for_div)
 	except (KeyError, Unit.DoesNotExist):
-		context = {'units': desired_units, 'course_field': course_field, 'course_code': course_code, 'error_message':"not working"}
+		context = {'pre_requisite_units':pre_requisite_unit, 'units': desired_units, 'course_field': course_field, 'course_code': course_code, 'error_message':"not working"}
 		return render(request, 'student/study_plan.html', context)
 	else:
 		if selected_unit.PreRequisite:
-			context = {'units': desired_units, 'course_field': course_field, 'course_code': course_code,}
+			context = {'pre_requisite_units':pre_requisite_unit, 'units': desired_units, 'course_field': course_field, 'course_code': course_code, 'unit_for_div': unit_for_div}
 			return render(request, 'student/study_plan.html', context)
 		else:
-			context = {'units': desired_units, 'course_field': course_field, 'course_code': course_code,
-		   'error_message': "No Prerequisite"}
+			context = {'pre_requisite_units':pre_requisite_unit, 'units': desired_units, 'course_field': course_field, 'course_code': course_code, 'unit_for_div': unit_for_div}
 			return render(request, 'student/study_plan.html', context)
 
 
@@ -77,62 +76,6 @@ def FinalStudyPlan(request, unit_code):
 		selected_unit = unit.unit_get.get(pk=request.POST['unit'])
 	except (KeyError, Unit.DoesNotExist):
 		return render(request, 'student/study_plan.html', {'error_message':"You did not select any Unit"})
-	else:
-		selected_unit.is_added = True
-		selected_unit.save()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def get_unit_code(course_code):
-	# unit_code = []
-	# unit_name = []
-	# Semester_Unit = SemesterUnit.objects.filter(Q(CourseCode = "course_code") | Q(Semester = "semester")) # have relevant info u can use in html and get the relevant value
-	# #unit_code = SemesterUnit.UnitCode
-	# #unit = Unit.objects.all()
-	# #course_data = Context({'semester_unit': Semester_Unit})
-	# #unit_data = Context({'unit': unit})
-	# #for course_entry in course_data:
-	# #	if course_entry.CourseCode == course_code:
-	# #		unit_code.append(course_entry.UnitCode)
-	# return Semester_Unit
-
-# def get_unit_name(unit_code):
-	# unit_name = []
-	# unit = Unit.objects.all()
-	# unit_data = Context({'unit': unit})
-	# for unit_entry in unit_data:
-		# if unit_entry.UnitCode in unit_code:
-			# unit_name.append(unit_entry.UnitName)
-	# return unit_name
-
-# def get_pre_req(unit_code):
-	# pre_req_Unit = PreRequisite.objects.filter(Q(CourseCode = "course_code") | Q(Semester = "semester"))
-	# # pre_req = {}
-	# # unit_code = []
-	# # unit_name = []
-	# # course_data = context({'semester_unit': SemesterUnit})
-	# # unit_data = context({'unit': Unit})
-	# # for course_entry in course_data:
-		# # if course_entry.CourseCode == course_code:
-			# # unit_code.append(course_entry.UnitCode)
-	# # for unit_entry in unit_data:
-		# # if unit_entry.UnitCode in unit_code:
-			# # unit_name.append(unit_entry.UnitName)
-	# # return unit_name
 
 
 
