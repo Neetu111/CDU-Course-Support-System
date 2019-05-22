@@ -65,18 +65,9 @@ def check_prerequisite(request, course_field, course_code):
 
 
 
-def FinalStudyPlan(request, unit_code):
-	unit = get_object_or_404(Unit, pk=unit_code)
-	units = Unit.objects.all()
-	courses = Course.objects.all()
-	course_majors = CourseMajor.objects.all()
-	semester_unit = SemesterUnit.objects.all()
-	pre_requisite = PreRequisite.objects.all()
-	try:
-		selected_unit = unit.unit_get.get(pk=request.POST['unit'])
-	except (KeyError, Unit.DoesNotExist):
-		return render(request, 'student/study_plan.html', {'error_message':"You did not select any Unit"})
-
+def final_study_plan(request, course_field, course_code):
+	context = {'final_units' : unit_for_div, 'course_field': course_field, 'course_code': course_code}
+	return render(request, 'student/final_study_plan.html', context)
 
 
 

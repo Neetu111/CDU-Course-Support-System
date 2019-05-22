@@ -1,0 +1,21 @@
+{% extends 'student/base.html' %}
+{% block body %}
+<script class="text/javascript">
+    function export_final_study_plan(){
+        window.print();
+    }
+</script>
+
+
+<h3> Selected Units for {{ course_code }} {{ field }} in semester 1 </h3>
+<div class="finalized_study_plan">
+    {% for final_unit in final_units%}
+        {{ final_unit.UnitName }} - {{ final_unit.UnitCode }} <br>
+    {% endfor %}
+</div><!--- end finalized_study_plan --->
+
+<div class="print_page">
+    <button onclick="export_final_study_plan()"> Export Study Plan</button>
+</div> <!--- end print_page --->
+
+{% endblock %}

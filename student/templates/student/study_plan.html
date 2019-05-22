@@ -52,20 +52,27 @@
 </script>
 <div class="row" id="features">
 	<div class="col-sm-6 features" id="SelectedUnits">
-        {% if error_message %}
-            <p><strong>{{ error_message }}</strong></p>
-        {% endif %}
-        {% for unit in unit_for_div %}
-            {% if unit.PreRequisite %}
-                <div class="unit_with_prerequisite">
-                    {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
-                </div><!--- end "unit_with_prerequisite" --->
-            {% else %}
-                <div class="unit_without_prerequisite" >
-                    {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
-                </div><!--- end "unit_without_prerequisite" --->
+        <form action="{% url 'student:final_study_plan' course_field course_code %}" method="post">
+            {% csrf_token %}
+            {% if error_message %}
+                <p><strong>{{ error_message }}</strong></p>
             {% endif %}
-        {% endfor %}
+            {% for unit in unit_for_div %}
+                {% if unit.PreRequisite %}
+                    <div class="unit_with_prerequisite">
+                        {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
+                    </div><!--- end "unit_with_prerequisite" --->
+                {% else %}
+                    <div class="unit_without_prerequisite" >
+                        {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
+                    </div><!--- end "unit_without_prerequisite" --->
+                {% endif %}
+            {% endfor %}
+            <br><br><br><br><br>
+            <div class="final_study_plan_buttons" >
+                <input type="submit" value="Final Study Plan">
+            </div><!--- end final_study_plan_buttons --->
+        </form>
 	</div><!--- end SelectedUnits--->
 	<div class="col-sm-6 features" id="ToSelectUnit">
         <strong><p>List of Units For {{ course_code }}</p></strong>
