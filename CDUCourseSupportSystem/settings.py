@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 MIDDLEWARE = [
 'django.middleware.security.SecurityMiddleware',
 'django.contrib.sessions.middleware.SessionMiddleware',
+# 'django_session_timeout.middleware.SessionTimeoutMiddleware',
 'django.middleware.common.CommonMiddleware',
 'django.middleware.csrf.CsrfViewMiddleware',
 'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -105,3 +106,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+
+SESSION_EXPIRE_SECONDS = 20  # 600 seconds = 5 minutes
+
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True

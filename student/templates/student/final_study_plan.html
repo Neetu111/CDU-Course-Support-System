@@ -7,7 +7,7 @@
 </script>
 
 
-<h3> Selected Units for {{ course_code }} {{ field }} in semester 1 </h3>
+<h3> Selected Units for {{ course_code }} {{ field }} in semester {{ semester }} </h3>
 <div class="finalized_study_plan">
     {% for final_unit in final_units%}
         {{ final_unit.UnitName }} - {{ final_unit.UnitCode }} <br>

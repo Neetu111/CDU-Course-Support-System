@@ -1,15 +1,14 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect
 from lecturer.forms import *
 import requests
 
-
-def index(request):
+def lecturer_login(request):
 	form = lecturerForm()
 	if request.method=="POST":
 		form = lecturerForm(request.POST)
-		lecturerid = request.POST.get('LecturerID')
+		lecturer_id = request.POST.get('LecturerID')
 		password = request.POST.get('password')
 		lecturers = Lecturer.objects.all()
 		model_lecturer_id = []
@@ -17,15 +16,15 @@ def index(request):
 		for lecturer in lecturers:
 			model_lecturer_id.append(lecturer.LecturerID)
 			model_password.append(lecturer.password)
-		if lecturerid in model_lecturer_id and password in model_password:
-			lecturer_form = Lecturer.objects.filter(LecturerID=lecturerid)
-			return render(request, 'lecturer/uploadpage.html', {'lecturer_form':lecturer_form})
+		if lecturer_id in model_lecturer_id and password in model_password:
+			lecturer = Lecturer.objects.get(LecturerID=lecturer_id)
+			print(lecturer.Name)
+			return HttpResponseRedirect(reverse('lecturer:upload_page', args=[lecturer_id, lecturer.Name]))
 		else:
-			return HttpResponse(form.is_valid())
-	return render(request, 'lecturer/lecturerlogin.html', {'form': form})
-    #return redirect('UploadPage')
+			form = lecturerForm()
+	return render(request, 'lecturer/lecturer_login.html',{'form': form})
 
 
-def UploadPage(request):
-    #context = 0
-    return render(request, 'lecturer/uploadpage.html')
+def upload_page(request, lecturer_id, lecturer_name):
+	context = {'lecturer_id': lecturer_id, 'lecturer_name':lecturer_name}
+	return render(request, 'lecturer/upload_page.html', context)

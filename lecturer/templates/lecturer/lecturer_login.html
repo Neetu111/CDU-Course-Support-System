@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+    <div class="lecturer_log_in_page">
+        <form action="{% url 'lecturer:lecturer_login' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ form.path }}
+            <input type="submit" value="Login">
+        </form>
+    </div><!--- end lecturer_log_in_page --->
+</body>
+</html>

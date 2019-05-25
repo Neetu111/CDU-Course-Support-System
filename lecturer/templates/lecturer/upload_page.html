@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lecturer</title>
+</head>
+<body>
+<div class="lecturer_info">
+	{{ lecturer_name }}-{{ lecturer_id }}
+</div><!--- end lecturer_info --->
+
+
+<div class="upload_student_progress_report">
+	<form action="{% url 'lecturer:upload_page' lecturer_id lecturer_name %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<label for="file">Choose a file</label>
+		<input type="file" name="Student Pregress Report" />
+		<input type="submit" value="Upload" />
+	</form>
+</div>
+
+</body>
+</html>

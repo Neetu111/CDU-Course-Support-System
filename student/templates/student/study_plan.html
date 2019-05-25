@@ -9,6 +9,28 @@
     .unit_with_prerequisite {
         color: red;
     }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      width: 100%;
+      overflow:auto;
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-content a:hover {background-color: #ddd;}
+
+    .dropdown:hover .dropdown-content {display: block;}
+
+    .dropdown:hover .dropbtn {background-color: #3e8e41;}
 </style>
 
 
@@ -45,44 +67,94 @@
 		}
 		var pop_up_result = confirm(pop_up_msg);
 		if (pop_up_result == false){
-			radio_button_id.checked = false;
-			var pop_up = confirm(radio_button_id.checked);
+			document.getElementById(radio_button_id).checked = false;
+		}
+	}
+
+	function delete_confirmation(selected_unit_button_id, selected_unit_name){
+	    var delete_confirmation_pop_up = confirm("Confirm that you wanna delete "+selected_unit_name);
+	    if (delete_confirmation_pop_up == false){
+			document.getElementById(selected_unit_button_id).checked = false;
 		}
 	}
 </script>
+
+
 <div class="row" id="features">
 	<div class="col-sm-6 features" id="SelectedUnits">
-        <form action="{% url 'student:final_study_plan' course_field course_code %}" method="post">
-            {% csrf_token %}
-            {% if error_message %}
-                <p><strong>{{ error_message }}</strong></p>
-            {% endif %}
-            {% for unit in unit_for_div %}
-                {% if unit.PreRequisite %}
-                    <div class="unit_with_prerequisite">
-                        {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
-                    </div><!--- end "unit_with_prerequisite" --->
-                {% else %}
-                    <div class="unit_without_prerequisite" >
-                        {{ unit.UnitName }} - {{ unit.UnitCode }} <br>
-                    </div><!--- end "unit_without_prerequisite" --->
+        <div class="delete_unit_form">
+            <form action="{% url 'student:delete_unit' course_field course_code semester year %}" method="post">
+                {% csrf_token %}
+                {% if error_message %}
+                    <p><strong>{{ error_message }}</strong></p>
                 {% endif %}
-            {% endfor %}
-            <br><br><br><br><br>
-            <div class="final_study_plan_buttons" >
-                <input type="submit" value="Final Study Plan">
-            </div><!--- end final_study_plan_buttons --->
+                {% for div_unit in unit_for_div %}
+                    <input type="radio" id="div_unit{{ forloop.counter }}" name="div_unit" value="{{ div_unit.UnitCode }}" onclick="delete_confirmation('div_unit{{ forloop.counter }}', '{{ div_unit.UnitName }}')" />
+                    <label for="div_unit{{ forloop.counter }}">
+                        {% if div_unit.PreRequisite %}
+                            <div class="unit_with_prerequisite">
+                                {{ div_unit.UnitName }}
+                            </div><!--- end "unit_with_prerequisite" --->
+                        {% else %}
+                            <div class="unit_without_prerequisite" >
+                                {{ div_unit.UnitName }}
+                            </div><!--- end "unit_without_prerequisite" --->
+                        {% endif %}
+                    </label><br>
+                {% endfor %}
+                {% if point_error_message %}
+                    {{ point_error_message }}
+                {% endif %}
+                <br><br>
+                <input type="submit" value="Delete Unit">
+            </form><!--- end delete_form --->
+        </div><!--- end delete_unit_form --->
+
+        <form action="{% url 'student:core_unit' course_field course_code semester year %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Core Unit">
         </form>
+        <form action="{% url 'student:common_unit' course_field course_code semester year %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Common Unit">
+        </form>
+        <form action="{% url 'student:specialist_elective' course_field course_code semester year %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Specialist Elective">
+        </form>
+        <form action="{% url 'student:research_unit' course_field course_code semester year %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Research Unit">
+        </form>
+
+
+
+        <form action="{% url 'student:final_study_plan' course_field course_code semester year %}" method="post">
+            {% csrf_token %}
+            <br><br>
+<!--            <div class="final_study_plan_buttons" >-->
+            <input type="submit" value="Final Study Plan">
+<!--            </div>&lt;!&ndash;- end final_study_plan_buttons -&ndash;&gt;-->
+        </form><!--- end study plan form --->
 	</div><!--- end SelectedUnits--->
 	<div class="col-sm-6 features" id="ToSelectUnit">
-        <strong><p>List of Units For {{ course_code }}</p></strong>
-		<form action="{% url 'student:check_prerequisite' course_field course_code %}" method="post">
+        <strong><p>List of Units For {{ course_code }} in {{ field }} for semester {{ semester }}
+        <div class="dropdown">
+          <button class="dropbtn">Filter</button>
+          <div class="dropdown-content">
+            <a href="{% url 'student:core_unit' course_field course_code semester year %}">Core Unit</a>
+            <a href="{% url 'student:common_unit' course_field course_code semester year %}">Common Unit</a>
+            <a href="{% url 'student:research_unit' course_field course_code semester year %}">Research Unit</a>
+          </div><!--- end dropdown-content --->
+        </div><!--- end dropdown --->
+        </p></strong>
+		<form action="{% url 'student:check_prerequisite' course_field course_code semester year %}" method="post">
 			{% csrf_token %}
 			{% for unit in units %}
                 <div class="unit_radio_button">
 					<input type="radio" id="unit{{ forloop.counter }}" name="unit" value="{{ unit.UnitCode }}" onclick="Unit_PreRequisite_Info('unit{{ forloop.counter }}', '{{ unit.UnitCode }}', '{{ unit.UnitName }}')" />
 					<label for="unit{{ forloop.counter }}">
-						{{ unit.UnitName}} - {{ unit.UnitCode }}
+						{{ unit.UnitName}} - {{ unit.UnitCode }} - {{ unit.Points }} - {{ unit.Type }}
 					</label><br>
 				</div><!--- end "unit_radio_button" --->
 			{% endfor %}
