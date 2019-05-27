@@ -1,13 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Lecturer</title>
-</head>
-<body>
-<div class="lecturer_info">
-	{{ lecturer_name }}-{{ lecturer_id }}
-</div><!--- end lecturer_info --->
+{% extends 'lecturer/base.html' %}
 
+{% block title %}Upload Page{% endblock %}
+
+{% block right_nav %}
+	<li>
+		<a class="navbar-header" href="#"}>{{ lecturer_name }}</a>
+	</li>
+	<li class="">
+		<a  class="navbar-header" href="{% url 'student:index' %}">Student</a>
+	</li>
+	<li>
+		<a class="navbar-header" href="{% url 'lecturer:lecturer_logout' %}"}>Logout<span class="glyphicon glyphicon-off"></span></a>
+	</li>
+{% endblock %}
+
+{% block body %}
+<style type="text/css">
+	.lecturer_info {
+		color: red;
+	}
+</style>
 
 <div class="upload_student_progress_report">
 	<form action="{% url 'lecturer:upload_page' lecturer_id lecturer_name %}" method="POST" enctype="multipart/form-data">
@@ -17,6 +29,4 @@
 		<input type="submit" value="Upload" />
 	</form>
 </div>
-
-</body>
-</html>
+{% endblock %}

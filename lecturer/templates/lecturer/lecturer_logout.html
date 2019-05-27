@@ -1,0 +1,18 @@
+{% extends 'lecturer/base.html' %}
+
+{% block title %}Lecturer Logout{% endblock %}
+
+
+{% block right_nav %}
+	<li class="">
+		<a  class="navbar-header" href="{% url 'student:index' %}">Student</a>
+	</li>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="lecturer_form_content">
+    <p>You have beeon logged out. For more actions please <a href="{% url 'lecturer:lecturer_login' %}">login</a> again</p>
+</div><!--- end lecturer_form_content --->
+{% endblock %}

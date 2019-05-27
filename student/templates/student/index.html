@@ -1,4 +1,14 @@
 {% extends 'student/base.html' %}
+
+{% block nav_right%}
+    <li class="active">
+        <a  class="navbar-header" href="{% url 'lecturer:lecturer_login' %}">
+            <span class="glyphicon glyphicon-user"></span>&nbsp; Lecturer
+        </a>
+    </li>
+{% endblock %}
+
+
 {% block body %}
 <style type="text/css">
     .error_message{
@@ -24,7 +34,6 @@
         padding: 50px;
     }
 </style>
-
 
 <div class="CDU">
     <h2>CDU Course Support System</h2>

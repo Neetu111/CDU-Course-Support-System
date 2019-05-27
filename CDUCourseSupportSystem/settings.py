@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.contrib.sessions import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -44,7 +45,6 @@ INSTALLED_APPS = (
 MIDDLEWARE = [
 'django.middleware.security.SecurityMiddleware',
 'django.contrib.sessions.middleware.SessionMiddleware',
-# 'django_session_timeout.middleware.SessionTimeoutMiddleware',
 'django.middleware.common.CommonMiddleware',
 'django.middleware.csrf.CsrfViewMiddleware',
 'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -107,6 +107,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
-SESSION_EXPIRE_SECONDS = 20  # 600 seconds = 5 minutes
 
-SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_SAVE_EVERY_REQUEST = True
+
+SESSION_COOKIE_AGE = 60*5   # 5 minutes session time
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

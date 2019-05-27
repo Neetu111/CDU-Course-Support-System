@@ -6,6 +6,7 @@ import requests
 
 def lecturer_login(request):
 	form = lecturerForm()
+	error_message = ""
 	if request.method=="POST":
 		form = lecturerForm(request.POST)
 		lecturer_id = request.POST.get('LecturerID')
@@ -22,9 +23,14 @@ def lecturer_login(request):
 			return HttpResponseRedirect(reverse('lecturer:upload_page', args=[lecturer_id, lecturer.Name]))
 		else:
 			form = lecturerForm()
-	return render(request, 'lecturer/lecturer_login.html',{'form': form})
+			error_message = "Invalid Creddential"
+	context = {'form': form, 'error_message': error_message}
+	return render(request, 'lecturer/lecturer_login.html', context)
 
 
 def upload_page(request, lecturer_id, lecturer_name):
 	context = {'lecturer_id': lecturer_id, 'lecturer_name':lecturer_name}
 	return render(request, 'lecturer/upload_page.html', context)
+
+def lecturer_logout(request):
+	return render(request, 'lecturer/lecturer_logout.html')

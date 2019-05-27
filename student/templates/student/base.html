@@ -30,11 +30,8 @@
         <!-- Items -->
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active">
-                    <a  class="navbar-header" href="{% url 'student:index' %}">
-                        <span class="glyphicon glyphicon-user"></span>&nbsp; Student
-                    </a>
-                </li>
+                {% block nav_right%}
+                {% endblock %}
             </ul>
         </div>
 
