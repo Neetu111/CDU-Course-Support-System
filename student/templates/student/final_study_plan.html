@@ -1,21 +1,67 @@
 {% extends 'student/base.html' %}
+
+{% block nav_right%}
+    <li class="active">
+        <a  class="navbar-header" href="{% url 'student:index' %}">
+            <span class="glyphicon glyphicon-user"></span>&nbsp; Student
+        </a>
+    </li>
+    <li class="active">
+        <a  class="navbar-header" href="{% url 'lecturer:lecturer_login' %}">
+            <span class="glyphicon glyphicon-user"></span>&nbsp; Lecturer
+        </a>
+    </li>
+{% endblock %}
+
 {% block body %}
+<style type="text/css">
+    .final_unit_without_prerequisite {
+        color: green;
+    }
+
+    .final_unit_with_prerequisite {
+        color: red;
+    }
+</style>
+
 <script class="text/javascript">
     function export_final_study_plan(){
         window.print();
     }
 </script>
 
-
-<h3> Selected Units for {{ course_code }} {{ field }} in semester {{ semester }} </h3>
-<div class="finalized_study_plan">
-    {% for final_unit in final_units%}
-        {{ final_unit.UnitName }} - {{ final_unit.UnitCode }} <br>
-    {% endfor %}
-</div><!--- end finalized_study_plan --->
-
-<div class="print_page">
-    <button onclick="export_final_study_plan()"> Export Study Plan</button>
-</div> <!--- end print_page --->
+<div class="container">
+  <h2>Study Plan</h2>
+  <h4>{{ course_code }} for {{ course_field }} in semester {{ semester }} and year {{ year }}</h4>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Unit Code</th><th>Unit Name</th><th>Unit Type</th><th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for final_unit in final_units%}
+            {% if final_unit.PreRequisite %}
+                <tr>
+                    <td><div class="final_unit_with_prerequisite">{{ final_unit.UnitCode }}</div></td>
+                    <td><div class="final_unit_with_prerequisite">{{ final_unit.UnitName }}</div></td>
+                    <td><div class="final_unit_with_prerequisite">{{ final_unit.Type }}</div></td>
+                    <td><div class="final_unit_with_prerequisite">{{ final_unit.Points }}</div></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td><div class="final_unit_without_prerequisite">{{ final_unit.UnitCode }}</div></td>
+                    <td><div class="final_unit_without_prerequisite">{{ final_unit.UnitName }}</div></td>
+                    <td><div class="final_unit_without_prerequisite">{{ final_unit.Type }}</div></td>
+                    <td><div class="final_unit_without_prerequisite">{{ final_unit.Points }}</div></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+  </table><!--- end table table-hover --->
+    <div class="print_page">
+        <button onclick="export_final_study_plan()"> Export Study Plan</button>
+    </div> <!--- end print_page --->
+</div><!--- end container --->
 
 {% endblock %}
