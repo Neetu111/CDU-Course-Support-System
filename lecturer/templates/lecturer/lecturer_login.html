@@ -53,8 +53,10 @@
     <div class="lecturer_log_in_page">
         <form action="{% url 'lecturer:lecturer_login' %}" method="POST" class="form-signin">
             {% csrf_token %}
-            {{ form.as_p }}
-            {{ form.path }}
+            <label for="Name">Username:</label>
+          <input type="text" name="Name" placeholder="Username">
+<label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password">
             <input type="submit" value="Login">
         </form>
     </div><!--- end lecturer_log_in_page --->

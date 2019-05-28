@@ -4,7 +4,7 @@
 
 {% block right_nav %}
 	<li>
-		<a class="navbar-header" href="#"}>{{ lecturer_name }}</a>
+		<a class="navbar-header" href="#"}>{{ name }}</a>
 	</li>
 	<li class="">
 		<a  class="navbar-header" href="{% url 'student:index' %}">Student</a>
@@ -22,11 +22,27 @@
 </style>
 
 <div class="upload_student_progress_report">
-	<form action="{% url 'lecturer:upload_page' lecturer_id lecturer_name %}" method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
-		<label for="file">Choose a file</label>
-		<input type="file" name="Student Pregress Report" />
-		<input type="submit" value="Upload" />
-	</form>
+    {% if user.is_authenticated %}
+        <h2>Hello {{ user.username }}</h2>
+
+        <div class="upload_student_progress_report">
+            <form action="{% url 'lecturer:show_student_progress_report' lecturer_name %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="file">Choose a file</label>
+                <input type="file" name="myfile">
+                <button type="submit">Upload </button>
+            </form>
+        </div>
+
+        <div class="uploaded_file_show">
+         <a href="{{ url }}}">{{ url }}</a>
+
+        {% if uploaded_file_url %}
+           <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+         {% endif %}
+        </div>
+    {% else %}
+        <h4>Please <a href="{% url 'lecturer:lecturer_login' %}">login</a> again</h4>
+    {% endif %}
 </div>
 {% endblock %}

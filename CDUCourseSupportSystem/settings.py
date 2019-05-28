@@ -15,6 +15,7 @@ import os
 from django.contrib.sessions import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 
 
 # Quick-start development settings - unsuitable for production
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'CDUCourseSupportSystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR,],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +70,8 @@ TEMPLATES = [
         },
     },
 ]
+LOGIN_URL = '/lecturer/lecturer_login/'
+LOGOUT_URL = '/lecturer/lecturer_logout/'
 
 WSGI_APPLICATION = 'CDUCourseSupportSystem.wsgi.application'
 
