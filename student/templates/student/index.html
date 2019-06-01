@@ -11,6 +11,12 @@
 
 {% block body %}
 <style type="text/css">
+    .container{
+        font-family: Open sans;
+        font-size: 18px;
+        color: black;
+    }
+
     .error_message{
         color: red;
         text-align: center;
@@ -20,36 +26,74 @@
         padding: 10px;
     }
     .create_study_plan_form{
-        text-align: center
+        text-align: center;
         display: inline-block;
         margin: auto;
-        width: 50%;
+        width: 100%;
         padding: 10px;
+        font-family: Georgia, serif;
+        font-size: 18px;
     }
     .CDU{
-        text-align: center
+        text-align: center;
         display: inline-block;
         margin: auto;
-        width: 50%;
+        width: 100%;
         padding: 50px;
+        font-family: Georgia, serif;
+        font-size: 24px;
+    }
+
+    .button {
+      display: inline-block;
+      border-radius: 12px;
+      background-color: #c7cde8;
+      border: none;
+      color: black;
+      text-align: center;
+      font-size: 14px;
+      padding: 15px;
+      width: 150px;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+      font-family: Open sans;
+    }
+    .button:hover{
+        background-color: black;
+        color: white;
     }
 </style>
 
-<div class="CDU">
-    <h2>CDU Course Support System</h2>
-</div>
+<!--- container of the first page to create study plan --->
+<div class="container">
+    <!--- Heading of the university name --->
+    <div class="CDU">
+        <strong><center><h1>CDU Course Support System</h1></center></strong>
+    </div><!--- end CDU --->
 
-<div class="error_message">
-    {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
-</div>
+    <!--- error message if any wrong input given in form --->
+    <div class="error_message">
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+    </div><!--- end error_message--->
 
-<div class="create_study_plan_form">
-	<form action="{% url 'student:index' %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="submit btn btn-default">Create Study Plan</button>
-    </form>
-</div>
+    <!--- form to get information to make study plan --->
+    <div class="create_study_plan_form">
+        <form action="{% url 'student:index' %}" method="POST">  <!--- send data to "index" view function --->
+            {% csrf_token %}
+            <strong><center><table>
+                {% for field in form %}
+                <tr>
+                    <td>{{ field.label_tag }} </td><td>{{ field }}</td>
+                </tr>
+                {% endfor %}
+            </table></center></strong>
+            <br><br>
+            <button class="button" type="submit" style="vertical-align:middle" ><span>Create Study Plan </span></button>
+        </form>
+    </div><!--- end create_study_plan_form --->
+</div><!--- end container --->
+
 {% endblock %}

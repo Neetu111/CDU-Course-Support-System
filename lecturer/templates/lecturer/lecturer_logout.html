@@ -2,17 +2,17 @@
 
 {% block title %}Lecturer Logout{% endblock %}
 
-
-{% block right_nav %}
-	<li class="">
-		<a  class="navbar-header" href="{% url 'student:index' %}">Student</a>
-	</li>
-{% endblock %}
-
-
 {% block body %}
 
+<style>
+	.lecturer_form_content{
+	    color: black;
+	    font-family: Open sans;
+	    font-size: 18px;
+	}
+</style>
+
 <div class="lecturer_form_content">
-    <p>You have beeon logged out. For more actions please <a href="{% url 'lecturer:lecturer_login' %}">login</a> again</p>
+    <p>You have been logged out. For more actions please <a href="{% url 'lecturer:lecturer_login' %}">login</a> again</p>
 </div><!--- end lecturer_form_content --->
 {% endblock %}

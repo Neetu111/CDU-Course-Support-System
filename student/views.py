@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.forms import model_to_dict
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse
 from .forms import *
 from .models import Unit, Course, CourseMajor, SemesterUnit, PreRequisite
@@ -58,6 +58,7 @@ def add_unit(request, course_field, course_code, semester, year):
 	error_message = ""
 	unit_codes = SemesterUnit.objects.filter(Q(CourseCode=course_code) & Q(Field=course_field.strip()) & Q(Semester=semester)).values('UnitCode')
 	unit_type = unit_type_list[0]
+	all_unit = Unit.objects.all()
 	if(unit_type=="all"):
 		desired_units = Unit.objects.filter(UnitCode__in=unit_codes)
 	else:
@@ -77,20 +78,21 @@ def add_unit(request, course_field, course_code, semester, year):
 				error_message = "Total points for current selected unit is "+str(sum(current_unit_point)) + "this total can not exceed 40"
 		else:
 			error_message = "Unit has already been selected"
-		context = {'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
+		context = {'all_units': all_unit, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
 				   'course_code': course_code, 'semester': semester, 'year': year, 'unit_type': unit_type,
 				   'unit_for_div': unit_for_div, 'dict_unit_for_div': dict_unit_for_div,
 				   'error_message': error_message}
 		request.session.set_expiry(12)
 		return render(request, 'student/study_plan.html', context)
 	else:
-		context = {'unit_for_div': unit_for_div, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
+		context = {'all_units': all_unit, 'unit_for_div': unit_for_div, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
 				   'course_code': course_code, 'semester': semester, 'year': year, 'unit_type': unit_type,
 				   'error_message': "No unit has been selected"}
 		return render(request, 'student/study_plan.html', context)
 
 def delete_unit(request, course_field, course_code, semester, year):
 	error_message = ""
+	all_unit = Unit.objects.all()
 	unit_codes = SemesterUnit.objects.filter(
 		Q(CourseCode=course_code) & Q(Field=course_field.strip()) & Q(Semester=semester)).values('UnitCode')
 	unit_type = unit_type_list[0]
@@ -108,39 +110,17 @@ def delete_unit(request, course_field, course_code, semester, year):
 			del dict_unit_for_div[dict_selected_unit['UnitName']]
 			current_unit_point.remove(selected_unit.Points)
 			unit_for_div.remove(selected_unit)
-		context = {'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
+		context = {'all_units': all_unit, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
 				   'course_code': course_code, 'semester': semester, 'year': year, 'unit_type': unit_type,
 				   'unit_for_div': unit_for_div, 'dict_unit_for_div': dict_unit_for_div,
 				   'error_message': error_message}
 		return render(request, 'student/study_plan.html', context)
 	else:
-		context = {'unit_for_div': unit_for_div, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units,
+		context = {'all_units': all_unit, 'unit_for_div': unit_for_div, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units,
 				   'course_field': course_field,
 				   'course_code': course_code, 'semester': semester, 'year': year, 'unit_type': unit_type,
 				   'error_message': "No unit has been selected"}
 		return render(request, 'student/study_plan.html', context)
-	# try:
-	# 	selected_unit = Unit.objects.get(UnitCode=request.POST['div_unit'])
-	# 	dict_selected_unit = model_to_dict(selected_unit)
-	# 	if dict_selected_unit['UnitName'] in dict_unit_for_div:
-	# 		del dict_unit_for_div[dict_selected_unit['UnitName']]
-	# 		current_unit_point.remove(selected_unit.Points)
-	# 		unit_for_div.remove(selected_unit)
-	# except (KeyError, Unit.DoesNotExist):
-	# 	context = {'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
-	# 			   'course_code': course_code, 'semester': semester, 'year': year, 'error_message': "not working"}
-	# 	return render(request, 'student/study_plan.html', context)
-	# else:
-	# 	if selected_unit.PreRequisite:
-	# 		context = {'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
-	# 				   'course_code': course_code, 'semester': semester, 'year': year, 'unit_for_div': unit_for_div,
-	# 				   'dict_unit_for_div': dict_unit_for_div, 'point_error_message': point_error_message}
-	# 		return render(request, 'student/study_plan.html', context)
-	# 	else:
-	# 		context = {'pre_requisite_units': pre_requisite_unit, 'units': desired_units, 'course_field': course_field,
-	# 				   'course_code': course_code, 'semester': semester, 'year': year, 'unit_for_div': unit_for_div,
-	# 				   'dict_unit_for_div': dict_unit_for_div, 'point_error_message': point_error_message}
-	# 		return render(request, 'student/study_plan.html', context)
 
 def all_unit(request, course_field, course_code, semester, year):
 	del unit_type_list[:]
@@ -148,7 +128,9 @@ def all_unit(request, course_field, course_code, semester, year):
 	result = get_unit(course_field, course_code, semester, year, unit_type_list[0])
 	unit_to_show = result[0]
 	desired_units = result[1]
-	context = {'units': desired_units, 'course_field': course_field,
+	pre_requisite_unit = result[2]
+	all_unit = result[3]
+	context = {'all_units': all_unit, 'pre_requisite_units':pre_requisite_unit,'units': desired_units, 'course_field': course_field,
 			   'course_code': course_code, 'semester': semester, 'year': year, 'unit_for_div': unit_to_show}
 	return render(request, 'student/study_plan.html', context)
 
@@ -158,7 +140,10 @@ def common_unit(request, course_field, course_code, semester, year):
 	result = get_unit(course_field, course_code, semester, year, unit_type_list[0])
 	unit_to_show = result[0]
 	desired_units = result[1]
-	context = {'units': desired_units, 'course_field': course_field,
+	pre_requisite_unit = result[2]
+	all_unit = result[3]
+	context = {'all_units': all_unit, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units,
+			   'course_field': course_field,
 			   'course_code': course_code, 'semester': semester, 'year': year, 'unit_for_div': unit_to_show}
 	return render(request, 'student/study_plan.html', context)
 
@@ -168,7 +153,10 @@ def core_unit(request, course_field, course_code, semester, year):
 	result = get_unit(course_field, course_code, semester, year, unit_type_list[0])
 	unit_to_show = result[0]
 	desired_units = result[1]
-	context = {'units': desired_units, 'course_field': course_field,
+	pre_requisite_unit = result[2]
+	all_unit = result[3]
+	context = {'all_units': all_unit, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units,
+			   'course_field': course_field,
 			   'course_code': course_code, 'semester': semester, 'year': year, 'unit_for_div': unit_to_show}
 	return render(request, 'student/study_plan.html', context)
 
@@ -178,7 +166,10 @@ def research_unit(request, course_field, course_code, semester, year):
 	result = get_unit(course_field, course_code, semester, year, unit_type_list[0])
 	unit_to_show = result[0]
 	desired_units = result[1]
-	context = {'units': desired_units, 'course_field': course_field,
+	pre_requisite_unit = result[2]
+	all_unit = result[3]
+	context = {'all_units': all_unit, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units,
+			   'course_field': course_field,
 			   'course_code': course_code, 'semester': semester, 'year': year, 'unit_for_div': unit_to_show}
 	return render(request, 'student/study_plan.html', context)
 
@@ -188,7 +179,10 @@ def specialist_elective(request, course_field, course_code, semester, year):
 	result = get_unit(course_field, course_code, semester, year, unit_type_list[0])
 	unit_to_show = result[0]
 	desired_units = result[1]
-	context = {'units': desired_units, 'course_field': course_field,
+	pre_requisite_unit = result[2]
+	all_unit = result[3]
+	context = {'all_units': all_unit, 'pre_requisite_units': pre_requisite_unit, 'units': desired_units,
+			   'course_field': course_field,
 			   'course_code': course_code, 'semester': semester, 'year': year, 'unit_for_div': unit_to_show}
 	return render(request, 'student/study_plan.html', context)
 
@@ -199,10 +193,14 @@ def final_study_plan(request, course_field, course_code, semester, year):
 
 
 def get_unit(course_field, course_code, semester, year, unit_type):
+	all_unit = Unit.objects.all()
 	unit_codes = SemesterUnit.objects.filter(
 		Q(CourseCode=course_code) & Q(Field=course_field.strip()) & Q(Semester=semester)).values('UnitCode')
+	pre_requisite_units = PreRequisite.objects.filter(UnitCode__in=unit_codes)
+	pre_requisite_unit = [{'UnitCode': pre_requisite.UnitCode, 'PreRequisiteCode': pre_requisite.PreRequisiteCode} for
+						  pre_requisite in pre_requisite_units]
 	if (unit_type == "all"):
 		desired_units = Unit.objects.filter(UnitCode__in=unit_codes)
 	else:
 		desired_units = Unit.objects.filter(Q(UnitCode__in=unit_codes) & Q(Type=unit_type))
-	return (unit_for_div, desired_units)
+	return (unit_for_div, desired_units, pre_requisite_unit, all_unit)

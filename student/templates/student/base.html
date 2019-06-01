@@ -10,6 +10,45 @@
     <link rel="stylesheet" type="text/css" href="{% static 'student/style.css' %}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    {% block html_head %} {% endblock %}
+
+    <style>
+
+    .navbar{
+        min-height: 65px;
+    }
+     .navbar-inverse {
+        background-color: #c7cde8;
+        font-family: Open sans;
+
+    }
+
+    .container-fluid{
+        background-color: #c7cde8;
+    }
+
+    .navbar-inverse .navbar-collapse .navbar-right >li>a{
+        color: black;
+        font-size: 20px;
+        padding-top: 20px;
+        padding-bottom: px;
+    }
+
+    img {
+        float: left;
+        height: 60px;
+    }
+
+    #logo{
+        float: left;
+        display: inline-block;
+    }
+
+
+
+    </style>
+
 </head>
 <body>
 
@@ -24,14 +63,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a  class="navbar-brand" href="https://www.cdu.edu.au/"><img src="student/static/student/images/Logo.png" ></a>
+            <a  id="logo" class="nav navbar-nav navbar-left" href="https://www.cdu.edu.au/"><img src="{% static 'student/images/CDU_Final_Logo.png' %}"></a>
         </div>
 
         <!-- Items -->
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav navbar-right">
-                {% block nav_right%}
-                {% endblock %}
+                <li >
+                    <a  class="navbar-header" href="{% url 'student:index' %}">Student</a>
+                </li>
+                <li class=>
+                    <a  class="navbar-header" href="{% url 'lecturer:lecturer_login' %}">Lecturer</a>
+                </li>
             </ul>
         </div>
 

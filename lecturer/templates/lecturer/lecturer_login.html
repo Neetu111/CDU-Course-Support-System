@@ -2,14 +2,6 @@
 
 {% block title %}Lecturer Login{% endblock %}
 
-
-{% block right_nav %}
-	<li class="">
-		<a  class="navbar-header" href="{% url 'student:index' %}">Student</a>
-	</li>
-{% endblock %}
-
-
 {% block body %}
 
 <style type="text/css">
@@ -19,21 +11,20 @@
         margin: auto;
         width: 100%;
         padding: 50px;
+        font-family: Open sans;
+        font-size: 18px;
+        color: black;
     }
     .CDU{
-        text-align: center
+        text-align: center;
         display: inline-block;
         margin: auto;
-        width: 50%;
+        width: 100%;
         padding: 50px;
+        font-family: Georgia, serif;
+        font-size: 24px;
     }
 
-    .form-signin {
-      width: 100%;
-      max-width: 330px;
-      padding: 15px;
-      margin: auto;
-    }
     .form-signin .form-control {
       position: relative;
       box-sizing: border-box;
@@ -44,6 +35,48 @@
     .form-signin .form-control:focus {
       z-index: 2;
     }
+
+    .form-signin{
+        text-align: center;
+        display: inline-block;
+        margin: auto;
+        width: 100%;
+        padding: 10px;
+        font-family: Georgia, serif;
+        font-size: 18px;
+    }
+
+    .CDU{
+        text-align: center;
+        display: inline-block;
+        margin: auto;
+        width: 100%;
+        padding: 50px;
+        font-family: Georgia, serif;
+        font-size: 24px;
+    }
+
+
+    .button {
+      display: inline-block;
+      border-radius: 12px;
+      background-color: #c7cde8;
+      border: none;
+      color: black;
+      text-align: center;
+      font-size: 14px;
+      padding: 15px;
+      width: 150px;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+      font-family: Open sans;
+    }
+    .button:hover{
+        background-color: black;
+        color: white;
+    }
+
 </style>
 
 <div class="lecturer_form_content">
@@ -54,12 +87,17 @@
         <form action="{% url 'lecturer:lecturer_login' %}" method="POST" class="form-signin">
             {% csrf_token %}
             <label for="Name">Username:</label>
-          <input type="text" name="Name" placeholder="Username">
-<label for="password">Password:</label>
-          <input type="password" name="password" placeholder="Password">
-            <input type="submit" value="Login">
+            <input type="text" name="Name" placeholder="Username">
+            <br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password">
+
+            <br><br>
+            <button class="button" type="submit" style="vertical-align:middle" ><span>Login</span></button>
         </form>
     </div><!--- end lecturer_log_in_page --->
+
     <div class="error_message">
         {% if error_message %}
             {{ error_message }}

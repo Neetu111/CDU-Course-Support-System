@@ -1,22 +1,38 @@
 {% extends 'student/base.html' %}
 
-{% block nav_right%}
-    <li class="active">
-        <a  class="navbar-header" href="{% url 'student:index' %}">
-            <span class="glyphicon glyphicon-user"></span>&nbsp; Student
-        </a>
-    </li>
-    <li class="active">
-        <a  class="navbar-header" href="{% url 'lecturer:lecturer_login' %}">
-            <span class="glyphicon glyphicon-user"></span>&nbsp; Lecturer
-        </a>
-    </li>
+
+{% block html_head %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 {% endblock %}
 
 
 {% block body %}
 
 <style type="text/css">
+
+    .container{
+        font-family: Open sans;
+        font-size: 18px;
+        color: black;
+    }
+
+    .table_heading{
+        font-size: 24px;
+    }
+
+    .table_head{
+        font-size: 19px;
+    }
+
+    .table_body{
+        font-size: 16px;
+    }
+
+    .error_message{
+        font-size: 18px;
+        color: #800000;
+    }
+
     .unit_without_prerequisite {
     color: green;
     }
@@ -24,6 +40,28 @@
     .unit_with_prerequisite {
         color: red;
     }
+
+    .button {
+      display: inline-block;
+      border-radius: 12px;
+      background-color: #c7cde8;
+      border: none;
+      color: black;
+      text-align: center;
+      font-size: 14px;
+      padding: 15px;
+      width: 150px;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+      font-family: Open sans;
+    }
+
+    .button:hover{
+        background-color: black;
+        color: white;
+    }
+
     .dropdown-content {
       display: none;
       position: absolute;
@@ -45,80 +83,123 @@
 
     .dropdown:hover .dropdown-content {display: block;}
 
-    .dropdown:hover .dropbtn {background-color: #3e8e41;}
+    .dropdown:hover .dropbtn {background-color: black; color: white;}
+
+    .dropbtn{
+        display: inline-block;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 14px;
+        margin: 5px;
+        padding: 10px 15px;
+        background-color: #c7cde8;
+    }
+
+    .sweet-warning{
+     background-color: #c7cde8;
+     color: black;
+     #or anything you wanna do with the button
+    }
+
+    .sweet-warning:not([disabled]):hover{
+     background-color: black;
+     color: white;
+    }
 </style>
 
 
 <script type="text/javascript">
-	function moving_with_prerequisite() {
-		var content = document.getElementById("ToSelectUnit").innerHTML;
-		    document.getElementById("SelectedUnits").innerHTML = content;
-	}
+	// function to get the pop_msg regarding the pre-requisite info
 
 	function Unit_PreRequisite_Info(radio_button_id, selected_unit_code, selected_unit_name) {
-		var pre_requisite_info = '{{ pre_requisite_units }}';
 		var code = [];
 		var pre_requisite_code = "";
 		var pre_requisite_name = "";
 		{% for pre_requisite_unit in pre_requisite_units %}
 			code.push('{{ pre_requisite_unit.UnitCode }}');
 		{% endfor %}
-		var pop_up_msg = "Selected Unit \n" + selected_unit_name + "-" + selected_unit_code + "\n" + "No pre-requisite required";
+		var pop_up_msg_1 = selected_unit_name + "(" + selected_unit_code + ")"+"\n\n";
+		var pop_up_msg_2 = "No pre-requisite required";
 		for(each_code in code){
 			if(selected_unit_code == code[each_code]){
 				{% for pre_requisite_unit in pre_requisite_units %}
 					if(selected_unit_code =='{{ pre_requisite_unit.UnitCode }}'){
 						pre_requisite_code = '{{ pre_requisite_unit.PreRequisiteCode }}';
-						{% for unit in units %}
-							if(pre_requisite_code == '{{ unit.UnitCode }}' ){
+						{% for unit in all_units %}
+							if('{{ unit.UnitCode }}' == pre_requisite_code){
 								pre_requisite_name = pre_requisite_name + "\n" + ('{{ unit.UnitName }}');
 							}
 						{% endfor %}
 					}
 				{% endfor %}
-			pop_up_msg = "Selected Unit \n" + selected_unit_name + "-" + selected_unit_code + "\n" + "Following pre-requisite are required "+ pre_requisite_name+ "\n" + "Confirm that you have passed these units";
+			console.log(pre_requisite_name);
+			pop_up_msg_2 = "Following pre-requisite are required "+ pre_requisite_name+ "\n\n" + "Confirm that you have passed these units";
 			break;
 			}
 		}
-		var pop_up_result = confirm(pop_up_msg);
-		if (pop_up_result == false){
-			document.getElementById(radio_button_id).checked = false;
-		}
-	}
-
-//	function delete_confirmation(selected_unit_button_id, selected_unit_name){
-//	    var delete_confirmation_pop_up = confirm("Confirm that you wanna delete "+selected_unit_name);
-//	    if (delete_confirmation_pop_up == false){
-//			document.getElementById(selected_unit_button_id).checked = false;
+//		var pop_up_result = confirm(pop_up_msg);
+//		if (pop_up_result == false){
+//			document.getElementById(radio_button_id).checked = false;
 //		}
-//	}
+
+
+    swal({
+      title: pop_up_msg_1,
+      text: pop_up_msg_2,
+      buttons: {
+            confirm : {text:'okay',className:'sweet-warning'},
+            cancel : 'cancel'
+        },
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        document.getElementById(radio_button_id).checked = true;
+      } else {
+        document.getElementById(radio_button_id).checked = false;
+      }
+    });
+
+	}
 </script>
 
 
 <div class="container" >
-
+    <!--- division for selected units for study p[lan --->
     <div class="row" id="features">
         <div class="col-sm-5 features" id="SelectedUnits">
-            {% if error_message %}
-                {{ error_message }}
-            {% endif %}
+
+            <!-- division for error message --->
+            <div class="error_message">
+                {% if error_message %}
+                    {{ error_message }}
+                    <p></p><br>
+                {% endif %}
+            </div>
+
+            <!--- division for showing selected units at the left side--->
             {% if unit_for_div %}
-                <h4>List of Selected Units</h4>
+                <!--- heading for selected units --->
+                <strong><p class="table_heading">List of Selected Units</p></strong>
                 <div class="delete_unit_form">
+                    <!-- link to the delete unit view function --->
                     <form action="{% url 'student:delete_unit' course_field course_code semester year %}" method="post">
                         {% csrf_token %}
                         <table class="table table-hover">
-                            <thead>
+                            <thead class="table_head">
                               <tr>
+                                  <!--- head of th table --->
                                 <th>Unit Name</th>
                               </tr>
                             </thead>
-                            <tbody>
+
+                            <!--- table for selected units --->
+                            <tbody class="table_body">
                                 {% for div_unit in unit_for_div %}
                                     <tr>
                                         <td>
                                             <input type="radio" id="div_unit{{ forloop.counter }}" name="div_unit" value="{{ div_unit.UnitCode }}" onclick="delete_confirmation('div_unit{{ forloop.counter }}', '{{ div_unit.UnitName }}')" />
                                             <label for="div_unit{{ forloop.counter }}">
+                                                <!--- checking fo the pre-requisite--->
                                                 {% if div_unit.PreRequisite %}
                                                     <div class="unit_with_prerequisite">
                                                         {{ div_unit.UnitName }}
@@ -135,39 +216,43 @@
                             </tbody>
                         </table>
                         <br><br>
-                        <input type="submit" value="Remove Unit">
+                        <!--- button to remove units --->
+                        <button class="button" type="submit" style="vertical-align:middle" ><span>Remove Unit</span></button>
                     </form><!--- end delete_form --->
                 </div><!--- end delete_unit_form --->
 
-                <form action="{% url 'student:final_study_plan' course_field course_code semester year %}" method="post">
-                    {% csrf_token %}
-                    <br><br>
-                    <input type="submit" value="Final Study Plan">
-                </form><!--- end study plan form --->
+
+                <br><br>
+
+                <!--- button to get the final study plan --->
+                <a href="{% url 'student:final_study_plan' course_field course_code semester year %}">
+                    <button class="button" type="submit" style="vertical-align:middle" ><span>Final Study Plan</span></button>
+                </a>
+
             {% endif %}
         </div><!--- end SelectedUnits--->
 
-
+        <!--- division for showing the units offered the selected semester --->
         <div class="col-sm-6 features" id="ToSelectUnit">
-            <strong><h4>List of Units For {{ course_code }} in {{ course_field }} for semester {{ semester }}
-            </h4></strong>
+            <strong><p class="table_heading">List of Units For {{ course_code }} in {{ course_field }} for Semester {{ semester }} and Year {{ year }}
+            </p></strong>
+            <!-- linking to the add unit view function --->
             <form action="{% url 'student:add_unit' course_field course_code semester year %}" method="post">
                 {% csrf_token %}
                 <table class="table table-hover">
-                    <thead>
+                    <thead class="table_head">
                       <tr>
                         <th>Unit Name</th><th>Unit Code</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <!--- table for the offered unit --->
+                    <tbody class="table_body">
                         {% for unit in units %}
                             <tr>
                                 <td>
                                     <div class="unit_radio_button">
                                         <input type="radio" id="unit{{ forloop.counter }}" name="unit" value="{{ unit.UnitCode }}" onclick="Unit_PreRequisite_Info('unit{{ forloop.counter }}', '{{ unit.UnitCode }}', '{{ unit.UnitName }}')" />
-                                        <label for="unit{{ forloop.counter }}">
                                             {{ unit.UnitName}}
-                                        </label>
                                     </div><!--- end "unit_radio_button" --->
                                 </td>
                                 <td>{{ unit.UnitCode}}</td>
@@ -175,15 +260,14 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <input type="submit" value="Add" >
+                <button class="button" type="submit" style="vertical-align:middle" ><span>Add Unit</span></button>
             </form><!---end form--->
         </div><!--- end ToSelectUnit--->
 
-
-
+        <!--- division for showing the filter button --->
         <div class="col-sm-1 features" id="filter_div">
             <div class="dropdown">
-              <button class="dropbtn">Filter</button>
+              <button class="dropbtn"><strong>Filter</strong></button></button>
               <div class="dropdown-content">
                   <a href="{% url 'student:all_unit' course_field course_code semester year %}">All</a>
                   <a href="{% url 'student:core_unit' course_field course_code semester year %}">Core Unit</a>
@@ -196,12 +280,6 @@
     </div><!--- end features--->
 </div><!--- end container --->
 {% endblock %}
-
-
-
-
-
-
 
 
 

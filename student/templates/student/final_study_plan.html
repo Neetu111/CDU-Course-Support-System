@@ -1,20 +1,15 @@
 {% extends 'student/base.html' %}
 
-{% block nav_right%}
-    <li class="active">
-        <a  class="navbar-header" href="{% url 'student:index' %}">
-            <span class="glyphicon glyphicon-user"></span>&nbsp; Student
-        </a>
-    </li>
-    <li class="active">
-        <a  class="navbar-header" href="{% url 'lecturer:lecturer_login' %}">
-            <span class="glyphicon glyphicon-user"></span>&nbsp; Lecturer
-        </a>
-    </li>
-{% endblock %}
 
 {% block body %}
 <style type="text/css">
+
+    .container{
+        font-family: Open sans;
+        font-size: 18px;
+        color: black;
+    }
+
     .final_unit_without_prerequisite {
         color: green;
     }
@@ -22,6 +17,28 @@
     .final_unit_with_prerequisite {
         color: red;
     }
+
+    .button {
+      display: inline-block;
+      border-radius: 12px;
+      background-color: #c7cde8;
+      border: none;
+      color: black;
+      text-align: center;
+      font-size: 14px;
+      padding: 15px;
+      width: 150px;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+      font-family: Open sans;
+    }
+
+    .button:hover{
+        background-color: black;
+        color: white;
+    }
+
 </style>
 
 <script class="text/javascript">
@@ -31,8 +48,11 @@
 </script>
 
 <div class="container">
+    <!--- header for final study plan --->
   <h2>Study Plan</h2>
-  <h4>{{ course_code }} for {{ course_field }} in semester {{ semester }} and year {{ year }}</h4>
+  <h4>{{ course_code }} for {{ course_field }} in Semester {{ semester }} and Year {{ year }}</h4>
+
+    <!--- table to show the final selected unit for study plan --->
   <table class="table table-hover">
     <thead>
       <tr>
@@ -41,6 +61,7 @@
     </thead>
     <tbody>
         {% for final_unit in final_units%}
+            <!--- condition to check the pre-requisite for the unit --->
             {% if final_unit.PreRequisite %}
                 <tr>
                     <td><div class="final_unit_with_prerequisite">{{ final_unit.UnitCode }}</div></td>
@@ -59,9 +80,12 @@
         {% endfor %}
     </tbody>
   </table><!--- end table table-hover --->
+
+    <!--- division for printing the page --->
     <div class="print_page">
-        <button onclick="export_final_study_plan()"> Export Study Plan</button>
+        <button class="button" type="submit" style="vertical-align:middle" onclick="export_final_study_plan()" ><span>Export Study Plan</span></button>
     </div> <!--- end print_page --->
+
 </div><!--- end container --->
 
 {% endblock %}
