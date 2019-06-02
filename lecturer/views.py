@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -16,22 +16,15 @@ def lecturer_login(request):
 		password = request.POST.get('password')
 		# name = Lecturer.objects.get(Name = name)
 		user = authenticate(username=name, password=password)
-		print(name)
-		print(password)
-		print(user)
 		if user:
 			if user.is_active:
 				login(request,user)
 				return HttpResponseRedirect(reverse('lecturer:upload_page', args=[name]))
 			else:
 				error_message = "User is inactive"
-		# if lecturer_id in model_lecturer_id and password in model_password:
-		# 	lecturer = Lecturer.objects.get(LecturerID=lecturer_id)
-		# 	print(lecturer.Name)
-		# 	return HttpResponseRedirect(reverse('lecturer:upload_page', args=[lecturer_id, lecturer.Name]))
 		else:
 			form = lecturerForm()
-			error_message = "Invalid Creddential"
+			error_message = "Please enter valid username and password"
 	context = {'form': form, 'error_message': error_message}
 	return render(request, 'lecturer/lecturer_login.html', context)
 
@@ -41,8 +34,9 @@ def upload_page(request, lecturer_name):
 	return render(request, 'lecturer/upload_page.html', context)
 
 def show_student_progress_report(request, lecturer_name):
+	error_message = ""
 	context = {}
-	if request.method == 'POST' and request.FILES['myfile']:
+	if request.method == 'POST' and request.FILES.get('myfile', False):
 		myfile = request.FILES['myfile']
 		fs = FileSystemStorage()
 		filename = fs.save(myfile.name, myfile)
@@ -52,8 +46,11 @@ def show_student_progress_report(request, lecturer_name):
 		return render(request, 'lecturer/upload_page.html', {
 			'uploaded_file_url': uploaded_file_url, 'lecturer_name':lecturer_name
 		})
-
-	return render(request, 'lecturer/upload_page.html', context)
+	else:
+		error_message = "You have not selected any file to upload"
+	context = {'error_message':error_message, 'lecturer_name':lecturer_name}
+	return render(request, 'lecturer/upload_page.html', {'error_message':error_message, 'lecturer_name':lecturer_name })
 
 def lecturer_logout(request):
+	logout(request)
 	return render(request, 'lecturer/lecturer_logout.html')

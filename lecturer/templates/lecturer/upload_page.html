@@ -4,11 +4,13 @@
 
 {% block right_nav %}
     <li>
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account<span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a class="navbar-" {% if user.is_authenticated %} href="http://127.0.0.1:8000/admin/" {% else %} href="#" {% endif %}}>Hello {{ user.username }}</a></li>
-          <li><a href="{% url 'lecturer:lecturer_logout' %}"}>Logout<span class="glyphicon glyphicon-off"></span></a></li>
-        </ul>
+        <div class="dropdown">
+            <button class="dropbtn">Account<span class="caret"></span></button>
+            <div class="dropdown-content">
+              <a class="navbar-" {% if user.is_authenticated %} href="http://127.0.0.1:8000/admin/" {% else %} href="{% url 'lecturer:lecturer_login' %}" {% endif %}}>Hello {{ user.username }}</a>
+              <a href="{% url 'lecturer:lecturer_logout' %}"}>Logout<span class="glyphicon glyphicon-off"></span></a>
+            </div>
+        </div>
 	</li>
 {% endblock %}
 
@@ -42,27 +44,41 @@
         color: white;
     }
 
+    .error_message{
+        color: red;
+        font-size: 20px;
+    }
+
 </style>
 
 <div class="upload_student_progress_report">
     {% if request.user.is_authenticated %}
+
         <br><br>
         <p>Please upload a file to visualize the student progress and passed unit information.</p><br><br>
         <div class="upload_student_progress_report">
             <form action="{% url 'lecturer:show_student_progress_report' lecturer_name %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <label for="file">Choose a file</label><br>
+                <label for="file" >Choose a file</label><br>
                 &nbsp; &nbsp; &nbsp; &nbsp;<center> <input type="file" name="myfile"></center>
                 <br>
+
+                <div class="error_message">
+                    {% if error_message %}
+                        <p>{{ error_message }}</p>
+                    {% endif %}
+                </div>
+
                 <button class="button" type="submit" style="vertical-align:middle" ><span>Upload</span></button>
             </form>
         </div>
-
+        <br><br>
         <div class="uploaded_file_show">
             {% if uploaded_file_url %}
                <p>File uploaded at: <a href="{{ uploaded_file_url }}"><button class="button" type="submit" style="vertical-align:middle" ><span>Show Progress Report</span></button></a></p>
              {% endif %}
         </div>
+
     {% else %}
         <h4>Please <a href="{% url 'lecturer:lecturer_login' %}">login</a> again</h4>
     {% endif %}
