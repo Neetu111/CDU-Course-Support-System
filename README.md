@@ -94,5 +94,5 @@ Step 9: Click the “Export Study Plan” button to get the pdf
 Step 1: Enter the username and password to login
 Step 2: Choose a student progress report file to upload
 Step 3: After uploading click “Show Student Progress Report” to visualize the report
-Step 4: The report should be displayed on the screen as is
+Step 4: The report should be displayed on the screen
 ```
